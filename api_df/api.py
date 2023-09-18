@@ -5,15 +5,13 @@ run via: python api.py
 
 from flask import Flask, request, jsonify
 import pandas as pd
+from backend import backendProcess
 
 app = Flask(__name__)
 
-def backend(input_df):
-    input_df['value'] = input_df['value'] * 3
-    return input_df
 
-@app.route('/api/df', methods=['POST'])
-def process_dataframe():
+@app.route("/api/df", methods=["POST"])
+def process_dataframe() -> tuple:
     """
     Process incoming DataFrame, perform calculations, and return the updated DataFrame.
     """
@@ -21,19 +19,21 @@ def process_dataframe():
         request_data = request.get_json()
 
         if len(request_data) == 0:
-            return jsonify({'error': 'Empty dataframe'}), 400
+            return jsonify({"error": "Empty dataframe"}), 400
 
         input_df = pd.DataFrame(request_data)
 
-        updated_df = backend(input_df)
+        updated_df = backendProcess(input_df)
 
-        updated_json = updated_df.to_json(orient='records')
+        updated_json = updated_df.to_json(orient="records")
 
-        return jsonify({'updated_dataframe': updated_json}), 200
+        return jsonify({"updated_dataframe": updated_json}), 200
 
     except Exception as e:
-        app.logger.error(f'Error processing DataFrame: {str(e)}')
-        return jsonify({'error': 'Internal server error.'}), 500
+        app.logger.error(f"Error processing DataFrame: {str(e)}")
+        return jsonify({"error": "Internal server error."}), 500
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+if __name__ == "__main__":
+    DEBUG = True
+    app.run(debug=DEBUG)
