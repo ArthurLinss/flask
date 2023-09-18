@@ -6,7 +6,8 @@ import requests
 import pandas as pd
 
 # pseudo data
-data = {"name": ["alpha", "beta", "gamma"], "value": [10, 20, 30]}
+#data = {"name": ["alpha", "beta", "gamma"], "value": [10, 20, 30]}
+data = [{"name":"alpha","value":10},{"name":"beta","value":20},{"name":"gamma","value":30}]
 
 df = pd.DataFrame(data)
 

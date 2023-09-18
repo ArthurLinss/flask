@@ -1,6 +1,7 @@
 """
 api for getting a dataframe, perform some calculations in backend, and returning updated dataframe
 run via: python api.py
+app is running by default in port 5000 in localhost: http://127.0.0.1:5000/
 """
 
 from flask import Flask, request, jsonify
@@ -13,7 +14,7 @@ app = Flask(__name__)
 @app.route("/api/df", methods=["POST"])
 def process_dataframe() -> tuple:
     """
-    Process incoming DataFrame, perform calculations, and return the updated DataFrame.
+    process incoming DataFrame, perform calculations and return the updated DataFrame.
     """
     try:
         request_data = request.get_json()
@@ -35,5 +36,8 @@ def process_dataframe() -> tuple:
 
 
 if __name__ == "__main__":
+    """
+    main method
+    """
     DEBUG = True
     app.run(debug=DEBUG)
